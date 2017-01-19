@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <td>Date</td>
+    <td>Opponent</td>
+    <td>Score</td>
+    <td>Result</td>
+  </tr>
+  <% @games.each do |game| %>
+    <tr>
+      <td><%= game_date(game) %></td>
+      <td><%= game_opponent(game) %></td>
+      <td><%= game_score(game) %></td>
+      <td><%= game_result(game) %></td>
+    </tr>
+  <% end %>
+</table>
