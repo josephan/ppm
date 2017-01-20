@@ -1,10 +1,5 @@
 class HomeController < ApplicationController
   def index
-  end
-
-  def history
-  end
-
-  def log
+    @ranked_users = User.all.order(elo: :desc)
   end
 end
