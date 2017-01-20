@@ -4,13 +4,17 @@ class GamesController < ApplicationController
   end
 
   def new
-    @game = current_user.games.new
+    @game = Game.new
+    @opponents = User.where.not(id: current_user.id).pluck(:name, :id)
   end
 
   def create
-    @game = current_user.games.create(game_params)
-    if @game.save
-      render action: "index"
+    @game = Game.new(date_played: game_params[:date_played])
+    player = @game.players.build(user: current_user, score: game_params[:player][:score])
+    opponent = @game.players.build(user_id: game_params[:opponent][:user], score: game_params[:opponent][:score])
+    if @game.save && player.save && opponent.save
+      flash[:success] = "Your game has been succesfully saved!"
+      redirect_to games_url
     else
       flash[:danger] = "There was an error with your game"
       render 'new'
@@ -20,6 +24,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:opponent, :user_score, :opponent_score, :date_played)
+    params.require(:game).permit(:date_played, opponent: [:user, :score], player: [:score])
   end
 end

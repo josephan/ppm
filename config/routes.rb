@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   root to: "home#index"
   get '/history', to: 'games#index'
   get '/log',     to: 'games#new'
-  post '/log',    to: 'games#create'
+
+  resources "games", only: [:index, :new, :create]
 end

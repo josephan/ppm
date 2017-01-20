@@ -1,4 +1,29 @@
-<% form_for(@game) do |f| %>
-  <%= f.error_messages %>
+<%= form_for(@game) do |f| %>
+  <p>
+    <%= f.label :date_played, "Date Played: " %>
+    <%= f.date_field :date_played %>
+  </p>
 
+  <%= f.fields_for :opponent do |opp| %>
+    <p>
+      <%= opp.label :user, "Opponent: " %>
+      <%= opp.select :user, @opponents %>
+    </p>
+
+    <%= f.fields_for :player do |user| %>
+      <p>
+        <%= user.label :score, "Your Score: " %>
+        <%= user.text_field :score %>
+      </p>
+    <% end %>
+
+    <p>
+      <%= opp.label :score, "Opponent Score: " %>
+      <%= opp.text_field :score %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= f.submit "Save" %>
+  </p>
 <% end %>
